@@ -1,9 +1,9 @@
 ---
 title: 'Reproducible Research: Peer Assessment 1'
-output:
-  html_document:
+author: 'Nikzad Rezaie'
+output: 
+  html_document: 
     keep_md: yes
-  pdf_document: default
 ---
 
 
@@ -58,30 +58,11 @@ head(stepsPerDay)
 
 
 ```r
-if(!dir.exists('figures')) dir.create('figures')
 hist(stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
-
-```r
-dev.copy(png, file = 'figures/1.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/figure 1-1.png)<!-- -->
 
 ### 2. Mean and median of total steps per day
 
@@ -140,25 +121,7 @@ with(stepsPerInterval, plot(interval, steps, type = 'l'
                 , ylab = 'Average steps'))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
-
-```r
-dev.copy(png, file = 'figures/2.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/figure 2-1.png)<!-- -->
 
 ### 2. Which interval which maximum average steps?
 
@@ -338,25 +301,7 @@ hist(new_stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
-
-```r
-dev.copy(png, file = 'figures/3.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/figure 3-1.png)<!-- -->
 
 
 We calculate the mean/median.
@@ -459,24 +404,6 @@ qplot(interval, steps, data = new_stepsPerInterval, facets = dayType ~ .
   theme(legend.position = 'none')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
-
-```r
-dev.copy(png, file = 'figures/4.png')
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/figure 4-1.png)<!-- -->
 
 

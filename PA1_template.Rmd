@@ -1,9 +1,9 @@
 ---
 title: 'Reproducible Research: Peer Assessment 1'
-output:
-  html_document:
+author: 'Nikzad Rezaie'
+output: 
+  html_document: 
     keep_md: yes
-  pdf_document: default
 ---
 
 
@@ -33,12 +33,9 @@ head(stepsPerDay)
 
 ### 1. Draw a histogram of the total steps per day
 
-```{r}
-if(!dir.exists('figures')) dir.create('figures')
+```{r figure 1}
 hist(stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
-dev.copy(png, file = 'figures/1.png')
-dev.off()
 ```
 
 ### 2. Mean and median of total steps per day
@@ -68,14 +65,12 @@ head(stepsPerInterval)
 
 ### 1. Make a time series plot of internal ~ average of steps
 
-```{r}
+```{r figure 2}
 with(stepsPerInterval, plot(interval, steps, type = 'l'
                 , col = 'blue'
                 , main = 'Average steps (all days) ~ interval'
                 , xlab = '5-minute interval'
                 , ylab = 'Average steps'))
-dev.copy(png, file = 'figures/2.png')
-dev.off()
 ```
 
 ### 2. Which interval which maximum average steps?
@@ -173,11 +168,9 @@ We aggregate steps per day.
 new_stepsPerDay <- aggregate(steps~date, data = new_df, sum)
 ```
 We plot the histogram.
-```{r}
+```{r figure 3}
 hist(new_stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
-dev.copy(png, file = 'figures/3.png')
-dev.off()
 ```
 
 
@@ -223,7 +216,7 @@ head(new_stepsPerInterval)
 
 Now we will plot the time series panels for weekdays and weekends using `ggplot2`. We use facets for dayTypes and `legend.position` to hide the legend.
 
-```{r}
+```{r figure 4}
 library(ggplot2)
 qplot(interval, steps, data = new_stepsPerInterval, facets = dayType ~ .
       , color = dayType
@@ -232,8 +225,6 @@ qplot(interval, steps, data = new_stepsPerInterval, facets = dayType ~ .
       , xlab = '5-minute interval'
       , ylab = 'Average steps') + 
   theme(legend.position = 'none')
-dev.copy(png, file = 'figures/4.png')
-dev.off()
 ```
 
 
