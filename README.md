@@ -4,7 +4,6 @@ author: 'Nikzad Rezaie'
 output: 
   html_document: 
     keep_md: yes
-
 ---
 
 
@@ -63,7 +62,7 @@ hist(stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
 ```
 
-![](/PA1_template_files/figure-html/figure-1-1.png)<!-- -->
+![](PA1_template_files/figure-html/figure-1-1.png)<!-- -->
 
 ### 2. Mean and median of total steps per day
 
@@ -81,7 +80,8 @@ old_mean
 
 
 ```r
-old_median <- median(stepsPerDay$steps, na.rm = T)old_median
+old_median <- median(stepsPerDay$steps, na.rm = T)
+old_median
 ```
 
 ```
@@ -95,11 +95,18 @@ Let's generate the data frame for average steps (in all days) for each interval 
 
 
 ```r
-stepsPerInterval <- aggregate(steps~interval, df, mean)head(stepsPerInterval)
+stepsPerInterval <- aggregate(steps~interval, df, mean)
+head(stepsPerInterval)
 ```
 
 ```
-##   interval     steps## 1        0 1.7169811## 2        5 0.3396226## 3       10 0.1320755## 4       15 0.1509434## 5       20 0.0754717## 6       25 2.0943396
+##   interval     steps
+## 1        0 1.7169811
+## 2        5 0.3396226
+## 3       10 0.1320755
+## 4       15 0.1509434
+## 5       20 0.0754717
+## 6       25 2.0943396
 ```
 
 
@@ -107,10 +114,14 @@ stepsPerInterval <- aggregate(steps~interval, df, mean)head(stepsPerInterval)
 
 
 ```r
-with(stepsPerInterval, plot(interval, steps, type = 'l'                , col = 'blue'                , main = 'Average steps (all days) ~ interval'                , xlab = '5-minute interval'                , ylab = 'Average steps'))
+with(stepsPerInterval, plot(interval, steps, type = 'l'
+                , col = 'blue'
+                , main = 'Average steps (all days) ~ interval'
+                , xlab = '5-minute interval'
+                , ylab = 'Average steps'))
 ```
 
-![](/PA1_template_files/figure-html/figure-2-1.png)<!-- -->
+![](PA1_template_files/figure-html/figure-2-1.png)<!-- -->
 
 ### 2. Which interval which maximum average steps?
 
@@ -118,7 +129,8 @@ We use `which.max` to find the index of the interval with maximum average steps,
 
 
 ```r
-maxIndex <- which.max(stepsPerInterval$steps)stepsPerInterval$interval[maxIndex]
+maxIndex <- which.max(stepsPerInterval$steps)
+stepsPerInterval$interval[maxIndex]
 ```
 
 ```
@@ -138,9 +150,9 @@ colSums(is.na(df))
 ```
 
 ```
-##    steps     date interval ##     2304        0        0
+##    steps     date interval 
+##     2304        0        0
 ```
-
 We can also calculate the proportion of missing values by `mean`.
 
 ```r
@@ -148,7 +160,8 @@ colMeans(is.na(df))
 ```
 
 ```
-##     steps      date  interval ## 0.1311475 0.0000000 0.0000000
+##     steps      date  interval 
+## 0.1311475 0.0000000 0.0000000
 ```
 
 ### 2. Strategy for filling in the missing values
@@ -157,15 +170,21 @@ First, let's find the index for missing values.
 
 
 ```r
-missing <- which(is.na(df$steps))head(df[missing, ])
+missing <- which(is.na(df$steps))
+head(df[missing, ])
 ```
 
 ```
-##   steps       date interval## 1    NA 2012-10-01        0## 2    NA 2012-10-01        5## 3    NA 2012-10-01       10## 4    NA 2012-10-01       15## 5    NA 2012-10-01       20## 6    NA 2012-10-01       25
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
 ```
 
 There are 4 possible strategies for a missing value:
-
 1. Data available on both date and interval: use mean of both
 2. Data available on date, but not interval: use date
 3. Data available on interval, but not date: use interval
@@ -176,26 +195,26 @@ Let's see which strategies apply to our missing values. First we take a look at 
 
 
 ```r
-missingDates <- unique(df$date[missing])head(unique(subset(df, date %in% missingDates)$steps))
+missingDates <- unique(df$date[missing])
+head(unique(subset(df, date %in% missingDates)$steps))
 ```
 
 ```
 ## [1] NA
 ```
-
 It seems all the data is missing (no value other than NA), so strategy 1 and 2 are ruled out.
 
 How about the intervals?
 
 
 ```r
-missingIntervals <- unique(df$interval[missing])head(unique(subset(df, interval %in% missingIntervals)$steps))
+missingIntervals <- unique(df$interval[missing])
+head(unique(subset(df, interval %in% missingIntervals)$steps))
 ```
 
 ```
 ## [1]  NA   0 117   9   4  36
 ```
-
 Well, we do have quite a variety of values (strategy 3). But let's see where there are intervals for which we have no value (strategy 4). 
 
 
@@ -206,7 +225,6 @@ sum(tapply(df$steps, df$interval, function(x) any(is.na(x) & all(is.na(x)))))
 ```
 ## [1] 0
 ```
-
 The logical statement I used is `any(is.na) & all(is.na)`, which means if there is an interval for which we have missing values, then all values of that intervals should be missing.
 
 Since the sum is 0, that means we have interval data for all of missing data. Thus, strategy 4 is also ruled out and we should go with strategies 3.
@@ -216,33 +234,53 @@ Since the sum is 0, that means we have interval data for all of missing data. Th
 First, let's create a new dataset by merging `df` and `stepsPerInterval`.
 
 ```r
-new_df <- merge(df, stepsPerInterval, by = 'interval')head(new_df)
+new_df <- merge(df, stepsPerInterval, by = 'interval')
+head(new_df)
 ```
 
 ```
-##   interval steps.x       date  steps.y## 1        0      NA 2012-10-01 1.716981## 2        0       0 2012-11-23 1.716981## 3        0       0 2012-10-28 1.716981## 4        0       0 2012-11-06 1.716981## 5        0       0 2012-11-24 1.716981## 6        0       0 2012-11-15 1.716981
+##   interval steps.x       date  steps.y
+## 1        0      NA 2012-10-01 1.716981
+## 2        0       0 2012-11-23 1.716981
+## 3        0       0 2012-10-28 1.716981
+## 4        0       0 2012-11-06 1.716981
+## 5        0       0 2012-11-24 1.716981
+## 6        0       0 2012-11-15 1.716981
 ```
-
 The missing values in `steps.x` will be replaced by `steps.y`, and the existing values will remain intact.
 
 
 ```r
-new_df$steps <- with(new_df, ifelse(is.na(steps.x), round(steps.y), round(steps.x)))head(new_df)
+new_df$steps <- with(new_df, ifelse(is.na(steps.x), round(steps.y), round(steps.x)))
+head(new_df)
 ```
 
 ```
-##   interval steps.x       date  steps.y steps## 1        0      NA 2012-10-01 1.716981     2## 2        0       0 2012-11-23 1.716981     0## 3        0       0 2012-10-28 1.716981     0## 4        0       0 2012-11-06 1.716981     0## 5        0       0 2012-11-24 1.716981     0## 6        0       0 2012-11-15 1.716981     0
+##   interval steps.x       date  steps.y steps
+## 1        0      NA 2012-10-01 1.716981     2
+## 2        0       0 2012-11-23 1.716981     0
+## 3        0       0 2012-10-28 1.716981     0
+## 4        0       0 2012-11-06 1.716981     0
+## 5        0       0 2012-11-24 1.716981     0
+## 6        0       0 2012-11-15 1.716981     0
 ```
 
 Now the extra columns will be removed.
 
 
 ```r
-new_df <- new_df[, c('steps', 'date', 'interval')]head(new_df)
+new_df <- new_df[, c('steps', 'date', 'interval')]
+head(new_df)
 ```
 
 ```
-##   steps       date interval## 1     2 2012-10-01        0## 2     0 2012-11-23        0## 3     0 2012-10-28        0## 4     0 2012-11-06        0## 5     0 2012-11-24        0## 6     0 2012-11-15        0
+##   steps       date interval
+## 1     2 2012-10-01        0
+## 2     0 2012-11-23        0
+## 3     0 2012-10-28        0
+## 4     0 2012-11-06        0
+## 5     0 2012-11-24        0
+## 6     0 2012-11-15        0
 ```
 
 
@@ -256,20 +294,22 @@ We aggregate steps per day.
 ```r
 new_stepsPerDay <- aggregate(steps~date, data = new_df, sum)
 ```
-
 We plot the histogram.
 
 ```r
-hist(new_stepsPerDay$steps, main = 'Total steps per day'     , xlab = 'Steps', col = 'yellow', border = 'blue')
+hist(new_stepsPerDay$steps, main = 'Total steps per day'
+     , xlab = 'Steps', col = 'yellow', border = 'blue')
 ```
 
-![](/PA1_template_files/figure-html/figure-3-1.png)<!-- -->
+![](PA1_template_files/figure-html/figure-3-1.png)<!-- -->
 
 
 We calculate the mean/median.
 
 ```r
-new_mean <- mean(new_stepsPerDay$steps)new_median <- median(new_stepsPerDay$steps)old_mean
+new_mean <- mean(new_stepsPerDay$steps)
+new_median <- median(new_stepsPerDay$steps)
+old_mean
 ```
 
 ```
@@ -314,11 +354,19 @@ We first use `weekdays` to get the days from `date` column, then create a vector
 
 
 ```r
-weekends <- c('Saturday' ,'Sunday')new_df$dayType <-factor(weekdays(new_df$date) %in% weekends, levels = c(TRUE, FALSE), labels = c('weekend', 'weekday'))head(new_df)
+weekends <- c('Saturday' ,'Sunday')
+new_df$dayType <-factor(weekdays(new_df$date) %in% weekends, levels = c(TRUE, FALSE), labels = c('weekend', 'weekday'))
+head(new_df)
 ```
 
 ```
-##   steps       date interval dayType## 1     2 2012-10-01        0 weekday## 2     0 2012-11-23        0 weekday## 3     0 2012-10-28        0 weekend## 4     0 2012-11-06        0 weekday## 5     0 2012-11-24        0 weekend## 6     0 2012-11-15        0 weekday
+##   steps       date interval dayType
+## 1     2 2012-10-01        0 weekday
+## 2     0 2012-11-23        0 weekday
+## 3     0 2012-10-28        0 weekend
+## 4     0 2012-11-06        0 weekday
+## 5     0 2012-11-24        0 weekend
+## 6     0 2012-11-15        0 weekday
 ```
 
 
@@ -328,19 +376,34 @@ Similar to previous parts, we use `aggregate` to get mean steps per internal ave
 
 
 ```r
-new_stepsPerInterval <- aggregate(steps ~ interval + dayType, new_df, mean)head(new_stepsPerInterval)
+new_stepsPerInterval <- aggregate(steps ~ interval + dayType, new_df, mean)
+head(new_stepsPerInterval)
 ```
 
 ```
-##   interval dayType steps## 1        0 weekend  0.25## 2        5 weekend  0.00## 3       10 weekend  0.00## 4       15 weekend  0.00## 5       20 weekend  0.00## 6       25 weekend  3.50
+##   interval dayType steps
+## 1        0 weekend  0.25
+## 2        5 weekend  0.00
+## 3       10 weekend  0.00
+## 4       15 weekend  0.00
+## 5       20 weekend  0.00
+## 6       25 weekend  3.50
 ```
 
 Now we will plot the time series panels for weekdays and weekends using `ggplot2`. We use facets for dayTypes and `legend.position` to hide the legend.
 
 
 ```r
-library(ggplot2)qplot(interval, steps, data = new_stepsPerInterval, facets = dayType ~ .      , color = dayType      , geom = 'line'      , main = 'Average steps (all days) ~ interval + dayType'      , xlab = '5-minute interval'      , ylab = 'Average steps') +   theme(legend.position = 'none')
+library(ggplot2)
+qplot(interval, steps, data = new_stepsPerInterval, facets = dayType ~ .
+      , color = dayType
+      , geom = 'line'
+      , main = 'Average steps (all days) ~ interval + dayType'
+      , xlab = '5-minute interval'
+      , ylab = 'Average steps') + 
+  theme(legend.position = 'none')
 ```
 
-![](/PA1_template_files/figure-html/figure-4-1.png)<!-- -->
+![](PA1_template_files/figure-html/figure-4-1.png)<!-- -->
+
 
