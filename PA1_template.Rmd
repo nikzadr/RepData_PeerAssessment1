@@ -34,8 +34,11 @@ head(stepsPerDay)
 ### 1. Draw a histogram of the total steps per day
 
 ```{r}
+if(!dir.exists('figures')) dir.create('figures')
 hist(stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
+dev.copy(png, file = 'figures/1.png')
+dev.off()
 ```
 
 ### 2. Mean and median of total steps per day
@@ -71,6 +74,8 @@ with(stepsPerInterval, plot(interval, steps, type = 'l'
                 , main = 'Average steps (all days) ~ interval'
                 , xlab = '5-minute interval'
                 , ylab = 'Average steps'))
+dev.copy(png, file = 'figures/2.png')
+dev.off()
 ```
 
 ### 2. Which interval which maximum average steps?
@@ -171,6 +176,8 @@ We plot the histogram.
 ```{r}
 hist(new_stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
+dev.copy(png, file = 'figures/3.png')
+dev.off()
 ```
 
 
@@ -225,6 +232,8 @@ qplot(interval, steps, data = new_stepsPerInterval, facets = dayType ~ .
       , xlab = '5-minute interval'
       , ylab = 'Average steps') + 
   theme(legend.position = 'none')
+dev.copy(png, file = 'figures/4.png')
+dev.off()
 ```
 
 
