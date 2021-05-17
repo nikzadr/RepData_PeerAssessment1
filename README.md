@@ -63,7 +63,7 @@ hist(stepsPerDay$steps, main = 'Total steps per day'
      , xlab = 'Steps', col = 'yellow', border = 'blue')
 ```
 
-![](E:/Documents/CODE/Courses/Coursera - Data Science Specialization/5. Reproducible Research/Week 2/Course Project 1/PA1_template_files/figure-html/figure-1-1.png)<!-- -->
+![](/PA1_template_files/figure-html/figure-1-1.png)<!-- -->
 
 ### 2. Mean and median of total steps per day
 
@@ -110,7 +110,7 @@ stepsPerInterval <- aggregate(steps~interval, df, mean)head(stepsPerInterval)
 with(stepsPerInterval, plot(interval, steps, type = 'l'                , col = 'blue'                , main = 'Average steps (all days) ~ interval'                , xlab = '5-minute interval'                , ylab = 'Average steps'))
 ```
 
-![](E:/Documents/CODE/Courses/Coursera - Data Science Specialization/5. Reproducible Research/Week 2/Course Project 1/PA1_template_files/figure-html/figure-2-1.png)<!-- -->
+![](/PA1_template_files/figure-html/figure-2-1.png)<!-- -->
 
 ### 2. Which interval which maximum average steps?
 
@@ -263,7 +263,7 @@ We plot the histogram.
 hist(new_stepsPerDay$steps, main = 'Total steps per day'     , xlab = 'Steps', col = 'yellow', border = 'blue')
 ```
 
-![](E:/Documents/CODE/Courses/Coursera - Data Science Specialization/5. Reproducible Research/Week 2/Course Project 1/PA1_template_files/figure-html/figure-3-1.png)<!-- -->
+![](/PA1_template_files/figure-html/figure-3-1.png)<!-- -->
 
 
 We calculate the mean/median.
@@ -342,5 +342,5 @@ Now we will plot the time series panels for weekdays and weekends using `ggplot2
 library(ggplot2)qplot(interval, steps, data = new_stepsPerInterval, facets = dayType ~ .      , color = dayType      , geom = 'line'      , main = 'Average steps (all days) ~ interval + dayType'      , xlab = '5-minute interval'      , ylab = 'Average steps') +   theme(legend.position = 'none')
 ```
 
-![](E:/Documents/CODE/Courses/Coursera - Data Science Specialization/5. Reproducible Research/Week 2/Course Project 1/PA1_template_files/figure-html/figure-4-1.png)<!-- -->
+![](/PA1_template_files/figure-html/figure-4-1.png)<!-- -->
 
